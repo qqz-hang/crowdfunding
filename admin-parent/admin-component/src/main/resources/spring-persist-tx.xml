@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+    <!--    自动扫描包 扫描service-->
+    <context:component-scan base-package="com.atguigu.crowd.service"/>
+    <!-- 配置事务管理器 -->
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!-- 装配数据源 -->
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!-- 配置事务切面 -->
+    <aop:config>
+        <!-- 考虑后面要整合SpringSecurity，避免将UserDetailsService加入事务控制，配置切入点表达式为ServiceImpl -->
+        <aop:pointcut id="txPointcut" expression="execution(* *..*ServiceImpl.*(..))"/>
+        <!-- 将事务通知和切入点表达式关联到一起 -->
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>
+    </aop:config>
+
+    <!-- 配置事务通知 -->
+    <tx:advice id="txAdvice" transaction-manager="txManager">
+        <tx:attributes>
+            <!-- 查询方法：配置只读属性，让数据库知道这是一个查询操作，能够进行一定优化 -->
+            <tx:method name="get*" read-only="true"/>
+            <tx:method name="find*" read-only="true"/>
+            <tx:method name="query*" read-only="true"/>
+            <tx:method name="count*" read-only="true"/>
+            <!-- 增删改方法：配置事务传播行为，回滚异常 -->
+            <!--
+                propagation属性：
+                    REQUIRED【默认值】表示当前方法必须工作在事务中，如果当前线程上没有已经开启的事务，则自己开新事务，如果已经有了，则就使用这个已有的事务
+                        顾虑：用别人的事务，有可能“被”回滚
+                    REQUIRES_NEW【建议使用】表示表示当前方法必须工作在事务中，不管当前线程有没有事务，都在自己开的事务中运行
+                        好处：不会受到其他事务回滚的影响
+            -->
+            <!--
+                rollback-for属性：配置事务方法针对什么样的异常回滚
+                    默认：运行时异常回滚
+                    建议：编译时异常和运行时异常都回滚
+            -->
+            <tx:method name="save*" propagation="REQUIRES_NEW" rollback-for="java.lang.Exception"/>
+            <tx:method name="update*" propagation="REQUIRES_NEW" rollback-for="java.lang.Exception"/>
+            <tx:method name="remove*" propagation="REQUIRES_NEW" rollback-for="java.lang.Exception"/>
+            <tx:method name="batch*" propagation="REQUIRES_NEW" rollback-for="java.lang.Exception"/>
+        </tx:attributes>
+    </tx:advice>
+</beans>

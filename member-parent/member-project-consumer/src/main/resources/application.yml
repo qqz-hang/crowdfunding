@@ -1,0 +1,23 @@
+aliyun:
+  oss:
+    access-key-id: LTAI5tBDp5tz6UWaEUTuxjGj
+    access-key-secret: JZr6BuZ7fN52EHLs1ROsfRkApMsXAA
+    bucket-domain: http://crowd0302.oss-cn-chengdu.aliyuncs.com
+    bucket-name: crowd0302
+    end-point: http://oss-cn-chengdu.aliyuncs.com
+server:
+  port: 5000
+spring:
+  application:
+    name: atguigu-crowd-project
+  redis:
+    host: 192.168.47.130
+  session:
+    store-type: redis
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:1000/eureka/
