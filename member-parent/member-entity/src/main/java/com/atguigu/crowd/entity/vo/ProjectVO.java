@@ -31,7 +31,7 @@ public class ProjectVO implements Serializable {
     // 详情图片的路径
     private List<String> detailPicturePathList;
     // 发起人信息
-    private MemberLaunchInfoVO memberLauchInfoVO;
+    private MemberLaunchInfoVO memberLaunchInfoVO;
     // 回报信息集合
     private List<ReturnVO> returnVOList;
     // 发起人确认信息

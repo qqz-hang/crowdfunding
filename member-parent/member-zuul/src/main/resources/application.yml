@@ -22,3 +22,6 @@ zuul:
       service-id: atguigu-crowd-project
       path: /project/**
   add-host-header: true
+  host:
+    connect-timeout-millis: 15000 #HTTP连接超时要比Hystrix的大
+    socket-timeout-millis: 60000   #socket超时
