@@ -11,7 +11,7 @@ spring:
   application:
     name: atguigu-crowd-project
   redis:
-    host: 192.168.47.130
+    host: 192.168.47.131
   session:
     store-type: redis
   thymeleaf:
