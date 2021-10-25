@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -89,5 +90,55 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<PortalTypeVO> getPortalTypeVO() {
         return projectPOMapper.selectPortalTypeVOList();
+    }
+
+    /**
+     * 根据projectId查询detailProjectVO
+     *
+     * @param projectId
+     * @return
+     */
+    @Override
+    public DetailProjectVO getDetailProjectVO(Integer projectId) {
+        DetailProjectVO detailProjectVO = projectPOMapper.selectDetailProjectVO(projectId);
+        // 根据detailProjectVO查询到status
+        Integer status = detailProjectVO.getStatus();
+        switch (status) {
+            case 0:
+                detailProjectVO.setStatusText("即将开始");
+                break;
+            case 1:
+                detailProjectVO.setStatusText("众筹中");
+                break;
+            case 2:
+                detailProjectVO.setStatusText("众筹成功");
+                break;
+            case 3:
+                detailProjectVO.setStatusText("众筹失败");
+                break;
+            default:
+                break;
+        }
+        // 计算众筹剩余天数
+        // 获取当前系统时间
+        Date currentDate = new Date();
+        // 获取目前众筹时间
+        String deployDate = detailProjectVO.getDeployDate();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            // 获取系统时间的时间戳
+            long timeStamp = currentDate.getTime();
+            Date deployTime = simpleDateFormat.parse(deployDate);
+            long deployTimestamp = deployTime.getTime();
+            // 过去的时间
+            long pastDays = (deployTimestamp - timeStamp) / 1000 / 60 / 60 / 24;
+            // 获取总共需要的时间
+            Integer day = detailProjectVO.getDay();
+            Integer lastDay = (int) (day - pastDays);
+            detailProjectVO.setDay(lastDay);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return detailProjectVO;
     }
 }

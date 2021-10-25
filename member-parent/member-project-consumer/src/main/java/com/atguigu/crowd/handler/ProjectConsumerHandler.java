@@ -3,15 +3,14 @@ package com.atguigu.crowd.handler;
 import com.atguigu.crowd.config.OSSProperties;
 import com.atguigu.crowd.constant.CrowdConstant;
 import com.atguigu.crowd.entity.po.ProjectPO;
-import com.atguigu.crowd.entity.vo.MemberConfirmInfoVO;
-import com.atguigu.crowd.entity.vo.MemberLoginVO;
-import com.atguigu.crowd.entity.vo.ProjectVO;
-import com.atguigu.crowd.entity.vo.ReturnVO;
+import com.atguigu.crowd.entity.vo.*;
 import com.atguigu.crowd.service.api.MySQLRemoteService;
 import com.atguigu.crowd.util.CrowdUtil;
 import com.atguigu.crowd.util.ResultEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -38,6 +37,18 @@ public class ProjectConsumerHandler {
     private OSSProperties ossProperties;
     @Resource
     private MySQLRemoteService mySQLRemoteService;
+
+    @RequestMapping("/get/project/detail/{projectId}")
+    public String getProjectDetail(@PathVariable("projectId") Integer projectId,
+                                   Model model) {
+        ResultEntity<DetailProjectVO> detailProjectVOResultEntity = mySQLRemoteService.getProjectDetailRemote(projectId);
+        // 对取出来的数据进行判断
+        if (ResultEntity.SUCCESS.equals(detailProjectVOResultEntity.getResult())) {
+            DetailProjectVO projectVOData = detailProjectVOResultEntity.getData();
+            model.addAttribute("detailProjectVO", projectVOData);
+        }
+        return "project-detail";
+    }
 
     @RequestMapping("/create/confirm")
     public String saveConfirm(

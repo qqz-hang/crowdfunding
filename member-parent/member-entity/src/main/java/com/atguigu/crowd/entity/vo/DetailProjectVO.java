@@ -19,6 +19,8 @@ public class DetailProjectVO {
     private Integer followerCount;
     // 0-即将开始，1-众筹中，2-众筹成功，3-众筹失败
     private Integer status;
+    private Integer day;
+    private String statusText;
     // 计划筹集的金额
     private Integer money;
     // 筹集的金额
