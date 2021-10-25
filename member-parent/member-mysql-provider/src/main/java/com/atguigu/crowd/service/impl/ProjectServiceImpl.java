@@ -4,10 +4,7 @@ import com.atguigu.crowd.entity.po.MemberConfirmInfoPO;
 import com.atguigu.crowd.entity.po.MemberLaunchInfoPO;
 import com.atguigu.crowd.entity.po.ProjectPO;
 import com.atguigu.crowd.entity.po.ReturnPO;
-import com.atguigu.crowd.entity.vo.MemberConfirmInfoVO;
-import com.atguigu.crowd.entity.vo.MemberLaunchInfoVO;
-import com.atguigu.crowd.entity.vo.ProjectVO;
-import com.atguigu.crowd.entity.vo.ReturnVO;
+import com.atguigu.crowd.entity.vo.*;
 import com.atguigu.crowd.mapper.*;
 import com.atguigu.crowd.service.api.ProjectService;
 import org.springframework.beans.BeanUtils;
@@ -87,5 +84,10 @@ public class ProjectServiceImpl implements ProjectService {
         BeanUtils.copyProperties(memberConfirmInfoVO, memberConfirmInfoPO);
         memberConfirmInfoPO.setMemberid(memberId);
         memberConfirmInfoPOMapper.insert(memberConfirmInfoPO);
+    }
+
+    @Override
+    public List<PortalTypeVO> getPortalTypeVO() {
+        return projectPOMapper.selectPortalTypeVOList();
     }
 }

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class PortalProjectVO {
     private Integer projectId;
     private String projectName;
-    private String headPicturePath;
+    private String headerPicturePath;
     private Integer money;
     private String deployDate;
     private Integer percentage;
