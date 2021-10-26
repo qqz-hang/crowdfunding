@@ -21,6 +21,9 @@ zuul:
     crowd-project:
       service-id: atguigu-crowd-project
       path: /project/**
+    crowd-order:
+      service-id: atguigu-crowd-order
+      path: /order/**
   add-host-header: true
   host:
     connect-timeout-millis: 15000 #HTTP连接超时要比Hystrix的大

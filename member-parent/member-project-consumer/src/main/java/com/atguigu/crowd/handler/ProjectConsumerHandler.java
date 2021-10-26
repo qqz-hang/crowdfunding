@@ -2,7 +2,6 @@ package com.atguigu.crowd.handler;
 
 import com.atguigu.crowd.config.OSSProperties;
 import com.atguigu.crowd.constant.CrowdConstant;
-import com.atguigu.crowd.entity.po.ProjectPO;
 import com.atguigu.crowd.entity.vo.*;
 import com.atguigu.crowd.service.api.MySQLRemoteService;
 import com.atguigu.crowd.util.CrowdUtil;
@@ -45,7 +44,7 @@ public class ProjectConsumerHandler {
         // 对取出来的数据进行判断
         if (ResultEntity.SUCCESS.equals(detailProjectVOResultEntity.getResult())) {
             DetailProjectVO projectVOData = detailProjectVOResultEntity.getData();
-            model.addAttribute("detailProjectVO", projectVOData);
+            model.addAttribute(CrowdConstant.ATTR_NAME_DETAIL_PROJECT, projectVOData);
         }
         return "project-detail";
     }

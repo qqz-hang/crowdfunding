@@ -19,7 +19,7 @@
                     select="com.atguigu.crowd.mapper.ProjectPOMapper.selectDetailReturnVO" column="id"/>
     </resultMap>
     <select id="selectDetailPicturePath" resultType="string">
-        SELECT item_pic_pathPr
+        SELECT item_pic_path
         FROM t_project_item_pic
         WHERE projectid = #{id}
     </select>

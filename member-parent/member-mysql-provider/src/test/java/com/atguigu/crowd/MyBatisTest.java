@@ -1,11 +1,9 @@
 package com.atguigu.crowd;
 
-import com.atguigu.crowd.entity.vo.DetailProjectVO;
-import com.atguigu.crowd.entity.vo.DetailReturnVO;
-import com.atguigu.crowd.entity.vo.PortalProjectVO;
-import com.atguigu.crowd.entity.vo.PortalTypeVO;
+import com.atguigu.crowd.entity.vo.*;
 import com.atguigu.crowd.mapper.MemberPOMapper;
 import com.atguigu.crowd.entity.po.MemberPO;
+import com.atguigu.crowd.mapper.OrderProjectPOMapper;
 import com.atguigu.crowd.mapper.ProjectPOMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,33 +28,40 @@ public class MyBatisTest {
     private MemberPOMapper memberPOMapper;
     @Resource
     private ProjectPOMapper projectPOMapper;
+    @Resource
+    private OrderProjectPOMapper orderProjectPOMapper;
     private Logger logger = LoggerFactory.getLogger(MyBatisTest.class);
 
+    @Test
+    public void selectOrderProject() {
+        OrderProjectVO orderProjectVO = orderProjectPOMapper.selectOrderProjectVO(1);
+        logger.info("===="+orderProjectVO.toString());
+    }
 
     @Test
     public void loadDetailProjectData() {
         DetailProjectVO detailProjectVO = projectPOMapper.selectDetailProjectVO(3);
-        logger.info(detailProjectVO.getProjectDesc()+"====");
-        logger.info(detailProjectVO.getProjectName()+"====");
-        logger.info(detailProjectVO.getProjectName()+"====");
-        logger.info(detailProjectVO.getDeployDate()+"====");
-        logger.info(detailProjectVO.getHeaderPicturePath()+"====");
-        logger.info(detailProjectVO.getFollowerCount()+"====");
-        logger.info(detailProjectVO.getLastDay()+"====");
-        logger.info(detailProjectVO.getMoney()+"====");
-        logger.info(detailProjectVO.getPercentage()+"====");
+        logger.info(detailProjectVO.getProjectDesc() + "====");
+        logger.info(detailProjectVO.getProjectName() + "====");
+        logger.info(detailProjectVO.getProjectName() + "====");
+        logger.info(detailProjectVO.getDeployDate() + "====");
+        logger.info(detailProjectVO.getHeaderPicturePath() + "====");
+        logger.info(detailProjectVO.getFollowerCount() + "====");
+        logger.info(detailProjectVO.getLastDay() + "====");
+        logger.info(detailProjectVO.getMoney() + "====");
+        logger.info(detailProjectVO.getPercentage() + "====");
         List<String> detailPicturePathList = detailProjectVO.getDetailPicturePathList();
         for (String s : detailPicturePathList) {
-            logger.info("=============detail"+s);
+            logger.info("=============detail" + s);
         }
         List<DetailReturnVO> detailReturnVOList = detailProjectVO.getDetailReturnVOList();
         for (DetailReturnVO detailReturnVO : detailReturnVOList) {
-            logger.info(detailReturnVO.getContent()+"==0-0-0");
-            logger.info(detailReturnVO.getReturnDate()+"==0-0-0");
-            logger.info(detailReturnVO.getFreight()+"==0-0-0");
-            logger.info(detailReturnVO.getPurchase()+"==0-0-0");
-            logger.info(detailReturnVO.getSignalPurchase()+"==0-0-0");
-            logger.info(detailReturnVO.getPurchase()+"==0-0-0");
+            logger.info(detailReturnVO.getContent() + "==0-0-0");
+            logger.info(detailReturnVO.getReturnDate() + "==0-0-0");
+            logger.info(detailReturnVO.getFreight() + "==0-0-0");
+            logger.info(detailReturnVO.getPurchase() + "==0-0-0");
+            logger.info(detailReturnVO.getSignalPurchase() + "==0-0-0");
+            logger.info(detailReturnVO.getPurchase() + "==0-0-0");
         }
     }
 
