@@ -125,7 +125,7 @@ public class PayHandler {
             // 3.发送给MySQL的远程接口
             ResultEntity<String> resultEntity = mySQLRemoteService.saveOrderRemote(orderVO);
             logger.info("Order save result=" + resultEntity.getResult());
-//            session.removeAttribute("orderVO");
+            session.removeAttribute("orderVO");
             return "trade_no:" + payOrderNum + "<br/>out_trade_no:" + orderNum + "<br/>total_amount:" + orderAmount;
         } else {
 
