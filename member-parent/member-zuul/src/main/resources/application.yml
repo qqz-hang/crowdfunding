@@ -24,6 +24,9 @@ zuul:
     crowd-order:
       service-id: atguigu-crowd-order
       path: /order/**
+    crowd-pay:
+      service-id: atguigu-crowd-pay
+      path: /pay/**
   add-host-header: true
   host:
     connect-timeout-millis: 15000 #HTTP连接超时要比Hystrix的大

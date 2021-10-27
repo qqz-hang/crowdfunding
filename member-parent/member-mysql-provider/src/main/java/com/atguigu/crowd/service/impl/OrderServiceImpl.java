@@ -2,8 +2,11 @@ package com.atguigu.crowd.service.impl;
 
 import com.atguigu.crowd.entity.po.AddressPO;
 import com.atguigu.crowd.entity.po.AddressPOExample;
+import com.atguigu.crowd.entity.po.OrderPO;
+import com.atguigu.crowd.entity.po.OrderProjectPO;
 import com.atguigu.crowd.entity.vo.AddressVO;
 import com.atguigu.crowd.entity.vo.OrderProjectVO;
+import com.atguigu.crowd.entity.vo.OrderVO;
 import com.atguigu.crowd.mapper.AddressPOMapper;
 import com.atguigu.crowd.mapper.OrderPOMapper;
 import com.atguigu.crowd.mapper.OrderProjectPOMapper;
@@ -27,6 +30,20 @@ public class OrderServiceImpl implements OrderService {
     private OrderPOMapper orderPOMapper;
     @Resource
     private AddressPOMapper addressPOMapper;
+
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
+    @Override
+    public void saveOrder(OrderVO orderVO) {
+        OrderPO orderPO = new OrderPO();
+        BeanUtils.copyProperties(orderVO, orderPO);
+        OrderProjectPO orderProjectPO = new OrderProjectPO();
+        BeanUtils.copyProperties(orderVO.getOrderProjectVO(), orderProjectPO);
+        // 保存orderPO自动生成的主键是orderProjectPO需要用到的外键
+        orderPOMapper.insert(orderPO);
+        Integer id = orderPO.getId();
+        orderProjectPO.setOrderId(id);
+        orderProjectPOMapper.insert(orderProjectPO);
+    }
 
     @Override
     public OrderProjectVO getOrderProjectVO(Integer returnId) {
